@@ -1,0 +1,27 @@
+@startuml
+'https://plantuml.com/class-diagram
+interface Strategy {
+    +calculate(a: int, b: int): int
+}
+
+class ConcreteStrategyOne {
+    +calculate(a: int, b: int): int
+}
+
+class ConcreteStrategyTwo {
+    +calculate(a: int, b: int): int
+}
+
+class Context {
+    -strategy: Strategy
+    +Context(strategy: Strategy)
+    +doSomething(a: int, b: int): int
+}
+
+Strategy <|.. ConcreteStrategyOne
+Strategy <|.. ConcreteStrategyTwo
+Context --> Strategy : uses
+
+
+
+@enduml

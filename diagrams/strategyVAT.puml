@@ -1,0 +1,28 @@
+@startuml
+'https://plantuml.com/class-diagram
+interface VATStrategy {
+    +calculate(amountHT: Amount): Amount
+}
+
+class FrenchVAT {
+    +calculate(amountHT: Amount): Amount
+}
+
+class SpanishVAT {
+    +calculate(amountHT: Amount): Amount
+}
+
+class ReceiptFormatter {
+    -strategy: VATStrategy
+    +ReceiptFormatter(strategy: VATStrategy)
+    +formatReceipt(basket: Basket): Receipt
+}
+
+VATStrategy <|.. FrenchVAT
+VATStrategy <|.. SpanishVAT
+ReceiptFormatter --> VATStrategy : uses
+
+
+
+
+@enduml

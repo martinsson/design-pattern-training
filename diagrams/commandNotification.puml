@@ -1,0 +1,27 @@
+@startuml
+'https://plantuml.com/class-diagram
+interface Notifier {
+    +notify(): void
+}
+
+class SMSNotifier {
+    +notify(): void
+}
+
+class SlackNotifier {
+    +notify(): void
+}
+
+class Invoker {
+    -command: Notifier
+    +Invoker(command: Notifier)
+    +doSomething(): void
+}
+
+
+Notifier <|.. SMSNotifier
+Notifier <|.. SlackNotifier
+Invoker --> Notifier : uses
+
+
+@enduml

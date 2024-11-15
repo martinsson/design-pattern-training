@@ -1,0 +1,27 @@
+@startuml
+'https://plantuml.com/class-diagram
+interface Command {
+    +execute(): void
+}
+
+class ConcreteCommandA {
+    +execute(): void
+}
+
+class ConcreteCommandB {
+    +execute(): void
+}
+
+class Invoker {
+    -command: Command
+    +Invoker(command: Command)
+    +doSomething(): void
+}
+
+
+Command <|.. ConcreteCommandA
+Command <|.. ConcreteCommandB
+Invoker --> Command : uses
+
+
+@enduml
