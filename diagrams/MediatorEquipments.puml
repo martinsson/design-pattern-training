@@ -1,0 +1,108 @@
+@startuml
+'https://plantuml.com/class-diagram
+
+together {
+    class EconomySaverMediator {
+        -light: Light
+        -fan: Fan
+        -heater: Heater
+        notify(sender, event)
+        -reactOnLight(event)
+        -reactOnFan(event)
+        -reactOnHeater(event)
+    }
+    note right of EconomySaverMediator::notify
+    if (sender == light){
+       reactOnLight(event)
+    }
+    if (sender == fan){
+       reactOnFan(event)
+    }
+    if (sender == heater){
+       reactOnHeater(event)
+    }
+    end note
+
+    note left of EconomySaverMediator::"reactOnLight(event)"
+    if (event == Event.TurnedOn){
+        fan->turnOff()
+        heater->turnOff()
+    }
+    end note
+    note left of EconomySaverMediator::"reactOnFan(event)"
+    if (event == Event.TurnedOn){
+        light->turnOff()
+        heater->turnOff()
+    }
+    end note
+    note left of EconomySaverMediator::"reactOnHeater(event)"
+    if (event == Event.TurnedOn){
+        light->turnOff()
+        fan->turnOff()
+    }
+    end note
+
+}
+together {
+    enum Event {
+        TurnedOn
+        TurnedOff
+    }
+    interface EquipmentMediator {
+        notify(sender, event)
+    }
+}
+
+together {
+    class Light {
+        -mediator: EquipmentMediator
+        -isOn: bool = false
+        turnOn()
+        turnOff()
+    }
+
+    class Fan {
+        -mediator: EquipmentMediator
+        -isOn: bool = false
+        turnOn()
+        turnOff()
+    }
+
+    class Heater {
+        -mediator: EquipmentMediator
+        -isOn: bool = false
+        turnOn()
+        turnOff()
+    }
+
+    note as implementationNote
+    turnOff(){
+      isOn=false;
+    }
+
+    turnOn(){
+      if (!isOn){
+        isOn = true;
+        mediator->notify(this,Event.TurnedOn)
+      }
+    }
+    end note
+
+    Light .. implementationNote
+    Fan .. implementationNote
+    Heater .. implementationNote
+}
+
+
+EconomySaverMediator ..|> EquipmentMediator
+Light ..>  EquipmentMediator: use
+Fan ..>  EquipmentMediator: use
+Heater ..>  EquipmentMediator: use
+
+
+
+EquipmentMediator -[hidden]- Light
+EquipmentMediator -[hidden]- Fan
+EquipmentMediator -[hidden]- Heater
+
+@enduml
