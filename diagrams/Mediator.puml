@@ -1,0 +1,64 @@
+@startuml
+'https://plantuml.com/class-diagram
+
+together {
+    class ConcreteMediator {
+        -component1: Component1
+        -component2: Component2
+        -component3: Component3
+        notify(sender, event)
+    }
+    note right of ConcreteMediator::notify
+    if (sender == component1){
+       reactOn1(event)
+    }
+    if (sender == component2){
+       reactOn2(event)
+    }
+    if (sender == component3){
+       reactOn3(event)
+    }
+    end note
+    interface Mediator {
+        notify(sender,event)
+    }
+    ConcreteMediator ..|> Mediator
+
+}
+
+together {
+    class Component1 {
+        -mediator: Mediator
+        doSomething1()
+    }
+    note right of Component1::doSomething1
+        mediator.notify(this,event)
+    end note
+
+    class Component2 {
+        -mediator: Mediator
+        doSomething2()
+    }
+    note right of Component2::doSomething2
+        mediator.notify(this,event)
+    end note
+
+    class Component3 {
+        -mediator: Mediator
+        doSomething3()
+    }
+    note right of Component3::doSomething3
+        mediator.notify(this,event)
+    end note
+}
+
+
+Component1 ..>  Mediator: use
+Component2 ..>  Mediator: use
+Component3 ..>  Mediator: use
+
+ConcreteMediator -[hidden]- Mediator
+Mediator -[hidden]- Component1
+Mediator -[hidden]- Component2
+Mediator -[hidden]- Component3
+@enduml
