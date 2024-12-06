@@ -1,0 +1,58 @@
+@startuml
+'https://plantuml.com/state-diagram
+
+scale 600 height
+together {
+'' step 1: define system aka Context
+    class Context{
+        action1()
+        action2()
+
+' step 2: the system has a state
+        - state: State
+
+'' step 3: the state of the system can change
+'        + changeState(newState)
+
+    }
+
+'' step 4: the state is an abstraction
+'' that perform the actions
+'    Context o--> State
+'    interface State {
+'        action1()
+'        action2()
+'    }
+
+'' step 5: Context delegates actions to state
+'    note left of Context::action1
+'     state.action1()
+'    end note
+'    note left of Context::action2
+'     state.action2()
+'    end note
+}
+together {
+'' step 6: Implementation of different states
+'    class ConcreteState1 implements State {
+'        - context: Context
+'        action1()
+'        action2()
+'    }
+
+'' step 7: implementation of actions
+'    note left of ConcreteState1::action1
+'        // build the new state (if needed)
+'        newState = new AnotherState(context)
+'        // assign the new state
+'        context.changeState(newState)
+'    end note
+
+'' step 8: implementation of other actions
+'    class ConcreteState2 implements State {
+'        - context: Context
+'        action1()
+'        action2()
+'    }
+}
+@enduml

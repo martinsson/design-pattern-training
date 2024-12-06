@@ -1,0 +1,67 @@
+@startuml
+'https://plantuml.com/class-diagram
+skinparam groupInheritance 1
+together {
+    class Equipment{
+        - state: State
+        changeState(newState: State)
+        switchOn()
+        switch0ff()
+        repair()
+    }
+    note left of Equipment::switchOn
+    state.switchOn()
+    end note
+    note left of Equipment::switch0ff
+    state.switchOff()
+    end note
+    note left of Equipment::repair
+    state.repair()
+    end note
+    note right of Equipment::changeState
+    state=newState
+    end note
+    abstract class State <<abstract>>{
+        # equipment: Equipment
+        {abstract} switchOn()
+        {abstract} switch0ff()
+        {abstract} repair()
+    }
+    Equipment o--> State
+}
+together {
+    class OnState extends State{
+        switchOn()
+        switch0ff()
+        repair()
+    }
+    note bottom of OnState
+    switchOff(){
+     offState = new OffState(context)
+     equipment.changeState(offState)
+    }
+    end note
+    class OffState extends State{
+        switchOn()
+        switch0ff()
+        repair()
+    }
+    note bottom of OffState
+    switchOn(){
+     onState = new OnState(context)
+     equipment.changeState(onState)
+    }
+    end note
+    class BrokenState extends State{
+        switchOn()
+        switch0ff()
+        repair()
+    }
+    note bottom of BrokenState
+    repair(){
+     offState = new OffState(context)
+     equipment.changeState(offState)
+    }
+    end note
+}
+@enduml

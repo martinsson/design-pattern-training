@@ -1,0 +1,20 @@
+@startuml
+'https://plantuml.com/state-diagram
+
+scale 500 width
+scale 800 height
+state Off
+state On
+state Broken
+'Off --> On : switchOn
+'Off --> Off : switchOff
+'Off --> Off : repair
+
+'On --> Off : switchOff
+'On --> On : switchOn
+'On --> Broken : repair
+
+'Broken --> Off : repair
+'Broken --> Broken : switchOn
+'Broken --> Broken : switchOff
+@enduml
